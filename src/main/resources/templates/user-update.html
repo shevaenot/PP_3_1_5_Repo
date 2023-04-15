@@ -1,0 +1,45 @@
+<!DOCTYPE html>
+<html lang="en" xmlns:th="http://www.w3.org/1999/xhtml" xmlns:th="https://www.thymeleaf.org">
+<head>
+  <meta charset="UTF-8">
+  <title>Update</title>
+</head>
+<body>
+<form action="#" th:action="@{/admin/user-update}" th:object="${user}" method="post">
+  <label for="id">ID</label>
+  <input readonly type="number" th:field="*{id}" id="id" placeholder="ID">
+  <br/>
+  <label for="firstName">First name</label>
+  <input type="text" th:field="*{username}" id="firstName" placeholder="Username">
+  <br/>
+  <label for="lastName">Password</label>
+  <input type="text" th:field="*{password}" id="lastName" placeholder="Password">
+  <br/>
+  <label for="surname">Surname</label>
+  <input type="text" th:field="*{surname}" id="surname" placeholder="Surname">
+  <br/>
+  <label for="age">Age</label>
+  <input type="text" th:field="*{age}" id="age" placeholder="Age">
+  <br/>
+  <th:block th:each="msg : ${user.getRoles()}">
+    <li th:text="${msg.getNoPrefix()}"></li>
+  </th:block>
+
+  <p>
+    <label>Roles
+      <input type="checkbox" name="roleList"
+             th:each="rol : ${roles}"
+             th:text="${rol.getNoPrefix()}"
+             th:value="${rol.name}"
+             th:field="*{roles}"/>
+    </label>
+  </p>
+
+  <br/>
+  <input type="submit" value="Update User">
+</form>
+<form th:action="@{/logout}" method="post">
+  <input type="submit" value="Sign Out"/>
+</form>
+</body>
+</html>
