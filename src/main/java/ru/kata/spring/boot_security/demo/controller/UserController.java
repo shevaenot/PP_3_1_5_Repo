@@ -21,16 +21,6 @@ public class UserController {
         this.userService = userService;
     }
 
-    @GetMapping("/")
-    public String home (){
-        return "index";
-    }
-
-    @GetMapping("/login")
-    public String login(){
-        return "login";
-    }
-
     @GetMapping()
     public String oneUserPage(Principal principal, Model model) {
         User user = userService.findUserByLogin(principal.getName());

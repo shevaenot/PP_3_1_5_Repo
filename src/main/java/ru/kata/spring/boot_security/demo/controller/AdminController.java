@@ -50,7 +50,7 @@ public class AdminController {
         return "redirect:/admin";
     }
 
-    @GetMapping("/user-delete/{id}")
+    @DeleteMapping("/user-delete/{id}")
     public String deleteUser(@PathVariable("id") long id){
         userService.deleteUser(id);
         return "redirect:/admin";
@@ -62,7 +62,7 @@ public class AdminController {
         model.addAttribute("roles", roleService.getAllRoles());
         return "user-update";
     }
-    @PostMapping("/user-update")
+    @PutMapping("/user-update")
     public String update(@ModelAttribute("user") User user) {
         Set<Role> rolesList = new HashSet<>();
         for (Role role : user.getRoles()) {
