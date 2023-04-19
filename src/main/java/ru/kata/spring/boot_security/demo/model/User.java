@@ -39,7 +39,7 @@ public class User implements UserDetails {
     private String surname;
 
     @Column(name = "age")
-    int age;
+    private int age;
 
     @ManyToMany(fetch = FetchType.LAZY)
     @JoinTable(name = "users_roles",
