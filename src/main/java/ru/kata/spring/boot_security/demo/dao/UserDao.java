@@ -1,20 +1,14 @@
 package ru.kata.spring.boot_security.demo.dao;
 
+import org.springframework.data.jpa.repository.JpaRepository;
+import org.springframework.data.jpa.repository.Query;
+import org.springframework.data.repository.query.Param;
+import org.springframework.stereotype.Repository;
 import ru.kata.spring.boot_security.demo.model.User;
 
-import java.util.List;
+@Repository
+public interface UserDao extends JpaRepository<User, Long> {
 
-public interface UserDao {
-
-    User findUserByLogin(String login);
-
-    List<User> getAllUsers();
-
-    void saveUser(User user);
-
-    void updateUser(User user);
-
-    User getUser(long id);
-
-    void deleteUser(long id);
+    @Query("SELECT u FROM User u JOIN FETCH u.roles WHERE u.name = :name")
+    User findByName(@Param("name")String name);
 }

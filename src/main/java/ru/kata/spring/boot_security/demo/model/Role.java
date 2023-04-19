@@ -7,37 +7,38 @@ import javax.persistence.Entity;
 import javax.persistence.GeneratedValue;
 import javax.persistence.GenerationType;
 import javax.persistence.Id;
-import javax.persistence.ManyToMany;
 import javax.persistence.Table;
 
-import java.util.Set;
-
-
-@Table(name = "roles")
 @Entity
+@Table(name = "roles")
 public class Role implements GrantedAuthority {
-
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
-    @Column(name = "id")
     private Long id;
 
-    @Column(name = "name", unique = true)
-    private String name;
-
-    @ManyToMany(mappedBy = "roles")
-    private Set<User> users;
+    @Column(name = "role", unique = true)
+    private String role;
 
     public Role() {
     }
 
-    public Role(String name) {
-        this.name = name;
+    public Role(String role) {
+        this.role = role;
+    }
+
+    public Role(Long id, String role) {
+        this.id = id;
+        this.role = role;
     }
 
     @Override
-    public String getAuthority() {
-        return name;
+    public String toString() {
+        return "role - " + role;
+    }
+
+    public String getNoPrefix() {
+        String pr = "ROLE_";
+        return role.substring(pr.length());
     }
 
     public Long getId() {
@@ -48,31 +49,16 @@ public class Role implements GrantedAuthority {
         this.id = id;
     }
 
-    public Set<User> getUsers() {
-        return users;
+    public String getRole() {
+        return role;
     }
 
-    public void setUsers(Set<User> users) {
-        this.users = users;
-    }
-
-    public void setName(String name) {
-        this.name = name;
-    }
-
-    public String getName() {
-        return name;
+    public void setRole(String role) {
+        this.role = role;
     }
 
     @Override
-    public String toString() {
-        String str = this.getAuthority();
-        return str.replace("ROLE_", "");
+    public String getAuthority() {
+        return role;
     }
-
-    public String getNoPrefix() {
-        String prefix = "ROLE_";
-        return name.substring(prefix.length());
-    }
-
 }

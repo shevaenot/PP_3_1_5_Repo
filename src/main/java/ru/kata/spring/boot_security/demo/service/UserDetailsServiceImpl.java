@@ -4,8 +4,8 @@ import org.springframework.security.core.userdetails.UserDetails;
 import org.springframework.security.core.userdetails.UserDetailsService;
 import org.springframework.security.core.userdetails.UsernameNotFoundException;
 import org.springframework.stereotype.Service;
+import org.springframework.transaction.annotation.Transactional;
 import ru.kata.spring.boot_security.demo.model.User;
-
 
 @Service
 public class UserDetailsServiceImpl implements UserDetailsService {
@@ -17,12 +17,13 @@ public class UserDetailsServiceImpl implements UserDetailsService {
     }
 
     @Override
-    public UserDetails loadUserByUsername(String username) throws UsernameNotFoundException {
-        User users = userService.findUserByLogin(username);
-        if (users == null) {
-            throw new UsernameNotFoundException(String.format("User '%s' not found", username));
-        }
+    @Transactional
+    public UserDetails loadUserByUsername(String name) throws UsernameNotFoundException {
+        User user = userService.findByName(name);
 
-        return users;
+        if (user == null) {
+            throw new UsernameNotFoundException("Not found!");
+        }
+        return user;
     }
 }
