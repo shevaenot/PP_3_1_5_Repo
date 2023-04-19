@@ -1,5 +1,6 @@
 package ru.kata.spring.boot_security.demo.controller;
 
+import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
 import org.springframework.security.access.prepost.PreAuthorize;
@@ -11,17 +12,17 @@ import java.util.List;
 
 @RestController
 @RequestMapping("/api")
-public class MyRestController {
-
+public class AdminRestController {
     private final UserService userService;
 
-    public MyRestController(UserService userService) {
+    @Autowired
+    public AdminRestController(UserService userService) {
         this.userService = userService;
     }
 
     @GetMapping("/users")
     public ResponseEntity<List<User>> getAll() {
-        return new ResponseEntity<>(userService.listUsers(), HttpStatus.OK);
+        return new ResponseEntity<>(userService.getAllUsers(), HttpStatus.OK);
     }
 
     @GetMapping("/user/{id}")
@@ -38,14 +39,14 @@ public class MyRestController {
 
     @DeleteMapping("/user-delete/{id}")
     public ResponseEntity<Void> delete(@PathVariable("id") Long id) {
-        userService.removeUser(id);
+        userService.delete(id);
         return new ResponseEntity<>(HttpStatus.OK);
     }
 
     @PatchMapping("/user-update/{id}")
     public ResponseEntity<Void> editUser(@PathVariable("id") Long id, @RequestBody User user) {
         user.setId(id);
-        userService.updateUser(user);
+        userService.updateUser(user, id);
         return new ResponseEntity<>(HttpStatus.OK);
     }
 }
